@@ -1,59 +1,260 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Event Management
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi sistem manajemen event berbasis **Laravel (Backend API)** dan **React + Vite (Frontend)**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Prasyarat
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Pastikan perangkat kamu sudah terinstal:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP >= 8.2
+- Composer
+- Node.js >= 18 & npm
+- MySQL
+- Git
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Struktur Proyek
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+event-management/
+├── app/                  # Backend Laravel
+├── database/
+├── routes/
+├── frontend/             # Frontend React + Vite
+│   ├── src/
+│   └── package.json
+├── .env.example
+└── ...
+```
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Instalasi Backend (Laravel)
 
-### Premium Partners
+### 1. Clone Repository
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+git clone https://github.com/far-abhipraya/event-management.git
+cd event-management
+```
 
-## Contributing
+### 2. Install Dependensi PHP
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+composer install
+```
 
-## Code of Conduct
+### 3. Konfigurasi File `.env`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Salin file `.env.example` menjadi `.env`:
 
-## Security Vulnerabilities
+```bash
+cp .env.example .env
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Kemudian edit file `.env` dan sesuaikan konfigurasi berikut:
 
-## License
+```env
+APP_NAME="Event Management"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost:8000
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Konfigurasi Database — ganti sesuai MySQL kamu
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=event_management
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Konfigurasi JWT
+JWT_SECRET=
+```
+
+> **Catatan:**
+> - `DB_DATABASE` diisi nama database MySQL yang akan digunakan (buat terlebih dahulu jika belum ada).
+> - `DB_USERNAME` dan `DB_PASSWORD` disesuaikan dengan kredensial MySQL lokal kamu.
+> - `JWT_SECRET` akan di-generate otomatis pada langkah berikutnya.
+
+### 4. Generate Application Key & JWT Secret
+
+```bash
+php artisan key:generate
+php artisan jwt:secret
+```
+
+### 5. Buat Database
+
+Buat database baru di MySQL dengan nama sesuai `DB_DATABASE` di `.env`:
+
+```sql
+CREATE DATABASE event_management;
+```
+
+### 6. Jalankan Migration & Seeder
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+Perintah ini akan membuat semua tabel dan mengisi data dummy ke database.
+
+### 7. Jalankan Backend Server
+
+```bash
+php artisan serve
+```
+
+Backend API akan berjalan di: **`http://localhost:8000`**
+
+---
+
+## Instalasi Frontend (React + Vite)
+
+### 1. Masuk ke Folder Frontend
+
+```bash
+cd frontend
+```
+
+### 2. Install Dependensi Node
+
+```bash
+npm install
+```
+
+### 3. Jalankan Frontend Dev Server
+
+```bash
+npm run dev
+```
+
+Frontend akan berjalan di: **`http://localhost:5173`**
+
+> Pastikan backend Laravel sudah berjalan di `http://localhost:8000` sebelum menjalankan frontend.
+
+---
+
+## Menjalankan Aplikasi Lengkap
+
+Buka **dua terminal** secara bersamaan:
+
+**Terminal 1 — Backend:**
+```bash
+# dari root folder event-management/
+php artisan serve
+```
+
+**Terminal 2 — Frontend:**
+```bash
+# dari folder event-management/frontend/
+cd frontend
+npm run dev
+```
+
+Akses aplikasi di browser: **`http://localhost:5173`**
+
+---
+
+## Daftar Endpoint API
+
+Base URL: `http://localhost:8000/api`
+
+### Authentication (Public)
+
+| Method | Endpoint | Keterangan |
+|--------|----------|------------|
+| POST | `/auth/register` | Registrasi akun baru |
+| POST | `/auth/login` | Login dan mendapatkan token JWT |
+
+### Authentication (Protected)
+
+| Method | Endpoint | Keterangan |
+|--------|----------|------------|
+| POST | `/auth/logout` | Logout |
+| GET | `/auth/profile` | Lihat profil user yang login |
+
+### Events
+
+| Method | Endpoint | Role | Keterangan |
+|--------|----------|------|------------|
+| GET | `/events` | Semua | Daftar semua event |
+| GET | `/events/{id}` | Semua | Detail event |
+| POST | `/events` | admin, organizer | Tambah event baru |
+| PUT | `/events/{id}` | admin, organizer | Update event |
+| DELETE | `/events/{id}` | admin | Hapus event |
+
+### Organizers
+
+| Method | Endpoint | Role | Keterangan |
+|--------|----------|------|------------|
+| GET | `/organizers` | Semua | Daftar organizer |
+| GET | `/organizers/{id}` | Semua | Detail organizer |
+| POST | `/organizers` | admin | Tambah organizer |
+| PUT | `/organizers/{id}` | admin | Update organizer |
+| DELETE | `/organizers/{id}` | admin | Hapus organizer |
+
+### Venues
+
+| Method | Endpoint | Role | Keterangan |
+|--------|----------|------|------------|
+| GET | `/venues` | Semua | Daftar venue |
+| GET | `/venues/{id}` | Semua | Detail venue |
+| POST | `/venues` | admin, organizer | Tambah venue |
+| PUT | `/venues/{id}` | admin, organizer | Update venue |
+| DELETE | `/venues/{id}` | admin | Hapus venue |
+
+### Tags
+
+| Method | Endpoint | Role | Keterangan |
+|--------|----------|------|------------|
+| GET | `/tags` | Semua | Daftar tag |
+| GET | `/tags/{id}` | Semua | Detail tag |
+| POST | `/tags` | admin, organizer | Tambah tag |
+| PUT | `/tags/{id}` | admin, organizer | Update tag |
+| DELETE | `/tags/{id}` | admin | Hapus tag |
+
+### Participants
+
+| Method | Endpoint | Role | Keterangan |
+|--------|----------|------|------------|
+| GET | `/participants` | Semua | Daftar peserta |
+| GET | `/participants/{id}` | Semua | Detail peserta |
+| POST | `/participants` | admin, organizer, participant | Tambah peserta |
+| PUT | `/participants/{id}` | admin | Update peserta |
+| DELETE | `/participants/{id}` | admin | Hapus peserta |
+
+### Registrations
+
+| Method | Endpoint | Role | Keterangan |
+|--------|----------|------|------------|
+| GET | `/registrations` | Semua | Daftar registrasi |
+| GET | `/registrations/{id}` | Semua | Detail registrasi |
+| POST | `/registrations` | admin, organizer, participant | Tambah registrasi |
+| PUT | `/registrations/{id}` | admin, organizer | Update registrasi |
+| DELETE | `/registrations/{id}` | admin | Hapus registrasi |
+
+> Semua endpoint di atas (selain `/auth/register` dan `/auth/login`) membutuhkan header:
+> ```
+> Authorization: Bearer {token}
+> ```
+
+---
+
+## Tech Stack
+
+| Layer | Teknologi |
+|-------|----------|
+| Backend | Laravel, PHP, MySQL, JWT Auth |
+| Frontend | React 19, React Router DOM, Axios, Vite |
+
+---
+
+## Lisensi
+
+Proyek ini dibuat untuk keperluan akademik — Ujian Tengah Praktikum (UTP).
