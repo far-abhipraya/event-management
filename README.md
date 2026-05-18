@@ -257,4 +257,4 @@ Base URL: `http://localhost:8000/api`
 
 ## Lisensi
 
-Proyek ini dibuat untuk keperluan akademik — Ujian Tengah Praktikum (UTP).
+Proyek ini dibuat untuk keperluan akademik — Ujian Tengah Praktikum (UTP) dan Ujian Akhir Praktikum (UAP).
